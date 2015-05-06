@@ -1,0 +1,12 @@
+extends layout
+
+block content
+  div.container
+    div.row
+    div.span12
+      p.text-right
+        a.btn.btn-primary(href='/u/'+username+'/post') 发布博客
+    div.span8
+      div#post-content
+
+  script(src='/javascripts/ajaxArticle.js')

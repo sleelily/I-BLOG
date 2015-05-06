@@ -1,0 +1,36 @@
+extends layout
+
+block content
+  div.container
+    div.span8
+      div.article
+        h3 
+          a(href='/') 全部
+          span &nbsp;/&nbsp;     
+        div.head
+          h1.title
+        hr.soften
+        div.contents
+        div.time
+
+
+      div.comment
+        div.commentarea
+          div.comment-header
+            span 
+              h3 评论
+          div.control-group
+            span
+              h4
+                a(id="user" href=user) #{user}
+                span 评论
+            textarea(id='commentContent' cows='4' placeholder='支持Markdown,拒绝灌水...')
+            button.btn.btn-primary(id='submitComment')  发布评论
+            br.clear
+        div.cList
+
+    div.span4
+      div.artList
+
+
+  script(src='/javascripts/article.js')

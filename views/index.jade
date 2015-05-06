@@ -1,0 +1,42 @@
+extends layout
+
+block content
+  div.container.warper
+    div.col-xs-9.content
+      div.navbar.content-nav
+        div.dropdown
+          button#dLabel.btn(type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false")
+            发布话题
+            span.caret
+          ul.nav.nav-icon.dropdown-menu(role="menu" aria-labelledby="dLabel")
+            li
+              a(href="#") 文章
+            li
+              a(href="#") 问答
+        ul.nav.nav-page
+          li
+            a(href="#")
+              span.glyphicon.glyphicon-chevron-left
+          li
+            a(href="#")
+              span.glyphicon.glyphicon-chevron-right
+      div.list
+        
+        
+    div.span2.sidebar.col-xs-3
+      div.navbar.content-nav
+        ul.nav
+          li
+            a(href="#")
+              span.glyphicon.glyphicon-tasks
+          -if(user)
+            li
+              a(href="#")
+                span.glyphicon.glyphicon-th-list
+
+    footer
+        div.content-nav
+          ul.nav
+            li
+              p sleelily&nbsp;&copy;&nbsp;2015&nbsp;Copyright
+  script(src='/javascripts/ajaxArticle.js')

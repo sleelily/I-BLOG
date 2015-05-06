@@ -1,0 +1,143 @@
+doctype html
+html
+  head
+    title= title
+    link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
+    link(rel='stylesheet', href='/stylesheets/bootstrap-markdown.min.css')
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    script(src='/javascripts/jquery.min.js')
+    script(src='/javascripts/script.js')
+  body
+    div.container
+      div.navbar.navbar-fixed-top
+        div.container
+          button.navbar-toggle.collapsed(type='button' data-toggle="collapse" data-target="#topNav")
+            span.sr-only Toggle navigation
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+          a.brand(href='/') I-BOLG
+          div.navbar-collapse.collapse#topNav
+            ul.nav.nav-bar
+              li
+                a(href="/") 首页
+                  i.fa.fa-home
+              li
+                a(href="/article") 文章
+                  i.fa.fa-save
+              li
+                a(href="/about") 关于
+                  i.fa.fa-pencil
+              li
+                div.input-group
+                  input.form-control(type="text"  placeholder="Search for...")
+                  span.input-group-btn
+                    button.btn.btn-default(type="button")
+                      span.glyphicon.glyphicon-search
+      
+      div#sidenav
+        ul.mainnav.nav
+          li
+            a(href="#")
+              span.glyphicon.glyphicon-home
+          -if(user)
+            li
+              a(href="#")
+                span.glyphicon.glyphicon-user
+              a(href="#")
+                span.glyphicon.glyphicon-log-out
+          -else
+            li
+              a(href="#" type="button" data-toggle="modal" data-target="#login-modal")
+                span.glyphicon.glyphicon-log-in
+            li
+              a(href="#" type="button" data-toggle="modal" data-target="#register-modal" data-backdrop="static")
+                span.glyphicon.glyphicon-plus-sign
+            
+          li
+            a(href="#")
+              span.glyphicon.glyphicon-question-sign
+        ul.sibnav.nav
+          li
+            a(href="#")
+              span.glyphicon.glyphicon-send
+
+      div.modal.fade(id="login-modal" tabindex="-1" role="dialog" aria-labelledby="#myModalLabel" aria-hidden="true")
+        div.modal-dialog
+          div.modal-content
+            div.modal-header
+              button.close(type="button" data-dismiss="modal" aria-label="Close")
+                span(aria-hidden="true") &times;
+              h4.modal-title(id="myModalLabel") 用户登录                     
+            div.modal-body
+              form.form-horizontal#login-form(method="post" action="/login")
+                div.input-group
+                  span.input-group-addon
+                    span.glyphicon.glyphicon-user
+                    span.input-label 昵称
+                  div.control
+                    input.form-control(type='text' id='username' name='username')
+                div.input-group
+                  span.input-group-addon
+                    span.glyphicon.glyphicon-lock
+                    span.input-label 密码
+                  div.control
+                    input.form-control(type='password' id='password' name='password')
+            div.modal-footer
+              button.btn.btn-default(type="button" data-dismiss="modal") 关闭
+              button.btn.btn-primary#login-submit(type="button") 登陆
+
+      div.modal.fade(id="register-modal" tabindex="-1" role="dialog" aria-labelledby="#myModalLabel" aria-hidden="true")
+        div.modal-dialog
+          div.modal-content
+            div.modal-header
+              button.close(type="button" data-dismiss="modal" aria-label="Close")
+                span(aria-hidden="true") &times;
+              h4.modal-title(id="myModalLabel") 用户注册                      
+            div.modal-body
+              form.form-horizontal#register-form(method="post" action="/reg")
+                div.input-group
+                  span.input-group-addon
+                    span.glyphicon.glyphicon-envelope
+                    span.input-label 邮箱
+                  div.control
+                    input.form-control(type='email' id='email' name='email')
+                div.input-group
+                  span.input-group-addon
+                    span.glyphicon.glyphicon-user
+                    span.input-label 昵称
+                  div.control
+                    input.form-control(type='text' id='username' name='username')
+                div.input-group
+                  span.input-group-addon
+                    span.glyphicon.glyphicon-lock
+                    span.input-label 密码
+                  div.control
+                    input.form-control(type='password' id='password' name='password')
+                div.input-group
+                  span.input-group-addon
+                    span.glyphicon.glyphicon-lock
+                    span.input-label 确认
+                  div.control
+                    input.form-control(type='password' id='password-repeat' name='password-repeat')
+            div.modal-footer
+              button.btn.btn-default(type="button" data-dismiss="modal") 关闭
+              button.btn.btn-primary#register-submit(type="button") 注册
+
+      
+      -if(success)
+       div.alert.alert-success
+         span.success #{success}
+      -if(info)
+       div.alert.alert-info
+         span.message #{info}
+      -if(error)
+       div.alert.alert-warning
+         span.error #{error}
+        
+      block content
+      
+    script(src='/javascripts/bootstrap.min.js')
+    script(src='/javascripts/bootstrap-markdown.js')
+      
+      
