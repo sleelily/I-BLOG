@@ -4,15 +4,9 @@ block content
   div.container.warper
     div.col-xs-9.content
       div.navbar.content-nav
-        div.dropdown
-          button#dLabel.btn(type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false")
-            发布话题
-            span.caret
-          ul.nav.nav-icon.dropdown-menu(role="menu" aria-labelledby="dLabel")
-            li
-              a(href="#") 文章
-            li
-              a(href="#") 问答
+        -if(user)
+          button.btn.btn-primary.post-btn
+            a(href="/post") 发布话题
         ul.nav.nav-page
           li
             a(href="#")
@@ -27,16 +21,60 @@ block content
       div.navbar.content-nav
         ul.nav
           li
-            a(href="#")
+            a(href="#list" aria-controls="home" role="tab" data-toggle="tab")
               span.glyphicon.glyphicon-tasks
           -if(user)
             li
               a(href="#")
                 span.glyphicon.glyphicon-th-list
-
+      div.side-content
+        div#list
+          ul.list-group
+            li.list-group-item
+              a(href="#") 
+                span.glyphicon.glyphicon-record
+                span 全部
+            li.list-group-item
+              a(href="#")
+                span.glyphicon.glyphicon-record
+                span 置顶
+            li.list-group-item
+              a(href="#")
+                span.glyphicon.glyphicon-record
+                span 精华
+            li.list-group-item
+              a(href="#")
+                span.glyphicon.glyphicon-record
+                span 文章
+            li.list-group-item
+              a(href="#")
+                span.glyphicon.glyphicon-record
+                span 问答
+            li.list-group-item
+              a(href="#")
+                span.glyphicon.glyphicon-record
+                span 帮助
+            li.list-group-item.plathead
+              h3 平台支持
+            div.platform
+              div.icon
+                a(href="http://nodejs.org")
+                  img(src='images/node-logo.svg')
+              div.icon
+                a(href="http://heroku.com")
+                  img(src='images/heroku-logo.png')
+              div.icon
+                a(href="http://getbootstrap.com")
+                  img(src='images/Bootstrap-logo.jpg')
+              div.icon
+                a(href="http://mongodb.com")
+                  img(src='images/mongodb-logo-web.png')
+              div.icon
+                a(href="http://github.com")
+                  img(src='images/github-logo.svg.png')
     footer
-        div.content-nav
-          ul.nav
-            li
-              p sleelily&nbsp;&copy;&nbsp;2015&nbsp;Copyright
+      div.content-nav
+        ul.nav
+          li
+            p sleelily&nbsp;&copy;&nbsp;2015&nbsp;Copyright
   script(src='/javascripts/ajaxArticle.js')

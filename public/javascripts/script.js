@@ -24,4 +24,7 @@ $(function(){
     $('#register-form').submit();
     this.preventDafult();
   });
+  $('button.btn-sm').bind('click',function(){
+    $('.md-preview').html(marked($('textarea.md-input').value));
+  });
 });

@@ -113,12 +113,11 @@ router.route('/login')
   });
 });
 
-router.route('/u/:username/post')
+router.route('/post')
 .get(function(req, res, next) {
-  var name = req.params.username;
+  var name = req.session.user;
   res.render('post',{
     title:"发表博客",
-    name:name,
     user:req.session.user,
     success:req.flash('success').toString(),
     error:req.flash('error').toString()

@@ -1,23 +1,38 @@
 extends layout
 
 block content
-  div.container
-    div.span10.postTopic
-      form.formhorizontal(method="post")
-        fieldset
-          legend
-            a(href="/") 主页
-            span /发布话题
-          div.container
-            div.control-group
-              span.topic
-                select.tag(name='type')
-                  option(value="") 请选择
-                  option(value="que") 问答
-                  option(value="tech") 教程
-
-                input(type="text" id="title" name="title" placeholder="输入标题")
-              textarea(rows=20 id="content" data-provide="markdown" name="content" placeholder="支持Markdown语法...")
-              hr.soften
-              button.btn.btn-large(type="submit" id="submit") SUBMIT
-    div.span2.sidebar
+  div.col-xs-9.postTopic
+    form.formhorizontal(method="post")
+      fieldset
+        legend
+          ol.breadcrumb
+            li
+              a(href="/") HOME
+            li.active 发布文章
+          div.control-group
+            div.input-group
+              span.input-group-btn
+                button.btn.btn-default(type="button")
+                  span.glyphicon.glyphicon-tag
+              div.radio-list
+                div.radio
+                  label(for="tag1") 文章
+                    input(type="radio" name="tag" id="tag1" value="article")
+                div.radio
+                  label(for="tag2") 问答
+                    input(type="radio" name="tag" id="tag2" value="question")
+            div.input-group
+              span.input-group-btn
+                button.btn.btn-default(type="button")
+                  span.glyphicon.glyphicon-pencil
+              input.form-control(type="text" id="title" name="title" placeholder="输入标题")
+            br.clear
+          textarea(rows=28 id="content" data-provide="markdown" name="content" placeholder="支持Markdown语法...")
+          button.btn.btn-large(type="submit" id="submit") SUBMIT
+  footer
+    div.content-nav
+      ul.nav
+        li
+          p sleelily&nbsp;&copy;&nbsp;2015&nbsp;Copyright
+  script(src='/javascripts/marked.js')
+    

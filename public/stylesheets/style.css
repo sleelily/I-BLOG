@@ -201,6 +201,8 @@ div.alert span{
   width: 55px;
 }
 
+
+
 /*模态*/
 .modal-dialog{
   position: absolute;
@@ -256,10 +258,11 @@ div.content-nav{
   color: #121212;
   margin-bottom: 0;
   border: none;
+  border-radius: 0;
 }
 
 div.content-nav .nav li{
-  width: 50px;
+  width: 30px;
   padding: 0;
 }
 
@@ -273,24 +276,16 @@ div.content-nav .nav li a{
   text-align: center;
 }
 
-div.content-nav .nav-icon{
-  width: 163px;
-  float: left;
+div.content-nav .post-btn{
+  margin: 8px;
+}
+div.content-nav .post-btn a{
+  color: #fff;
 }
 
-div.content-nav .nav-icon li{
-  margin: 0 15px;
-}
-
-div.content-nav ul.nav-icon li a{
-  width: 50px;
-  border: none;
-}
-
-div.content-nav .dropdown{
-  width: 50%;
-  float: left;
-  height: 50px;
+div.content-nav .post-btn a:hover{
+  text-decoration: none;
+  color: #fff;
 }
 
 div.content-nav #dLabel{
@@ -298,11 +293,10 @@ div.content-nav #dLabel{
 }
 
 div.content-nav>.nav{
-  width: 70px;
+  width: 60px;
   float: right;
   margin: 10px;
 }
-
 div.content-nav .nav-page li{
   display: inline-block;
   width: 30px;
@@ -374,44 +368,74 @@ div.item span.time{
 
 /*侧边栏*/
 div.sidebar{
+  overflow: hidden;
   padding: 0 0 0 2px
 }
 
-div.sidebar .panel{
-  background-color: rgba(0,0,0,0.1);
-  box-shadow: 1px 1px 2px rgba(0,0,0,0.1);
-  margin-bottom: 20px;
+div.sidebar .side-content{
+  /*height: 600px;*/
 }
 
-div.panel .post{
-  padding: 10px 0;
+div.sidebar .list-group,
+div.sidebar #list{
+  height: 100%;
+  background: #e4eaec;
+}
+div.sidebar .list-group{
+  padding: 15px;
+}
+div#list .list-group li{
+  padding: 0;
+  background: #e4eaec;
+  border: none;
+  border-radius: none; 
 }
 
-div.panel .post a{
-  margin-left: 15px;
+div#list .list-group li a{
+  width: 100%;
+  display: block;
+  padding: 10px 15px;
+  font-weight: bold;
+  color: #353535;
+}
+div#list .list-group li a:hover{
   text-decoration: none;
+  background: #efefef;
+}
+div#list .list-group li a span:last-child{
+  margin-left: 15px;
 }
 
+div#list .list-group li.plathead{
+  margin: 0 -15px;
+}
+
+div#list .list-group li h3{
+  background: #efefef;
+  padding: 10px 15px;
+}
+
+div.platform{
+
+}
+div.platform div.icon{
+
+}
+div.platform .icon a{
+
+}
+div.platform .icon a img{
+  width: 144px;
+}
 /*发布话题页*/
 
 .postTopic{
-  
-}
-
-.postTopic form{
-  width: 870px;
-  border: none;
-  border-radius: 5px;
-  overflow: hidden;
-  background-color: #a2a2a2;
-  padding: 40px 50px;
+  padding: 0;
 }
 
 .postTopic form legend{
-  width: 850px;
-  padding: 0 10px;
-  margin-left: 5px;
-  border-radius: 3px;
+  width: 100%;
+  padding: 0;
   margin-bottom: 10px;
   background-color:#f6f6f6;
 }
@@ -421,28 +445,40 @@ div.panel .post a{
 }
 
 .postTopic form .control-group{
-  width: 870px;
+  width: 100%;
+  margin-bottom: 0px;
 }
 
-.postTopic form select{
-  width: 120px;
+.postTopic form .breadcrumb{
+  margin-bottom: 0;
 }
-
-.postTopic form select:focus{
+.postTopic form input#title{
+  max-width: 777px;
   border: none;
   box-shadow: none;
-}
-
-.postTopic form select option{
-  border: none;
-  padding: 2px 0;
-}
-
-.postTopic form input#title{
-  width: 720px;
-  margin-left: 10px;
-  border: none;
   padding:5px 10px;
+  font-size: 23px;
+  margin: 5px 0;
+}
+.postTopic form .input-group{
+  background: #fff;
+  float: right;
+}
+.postTopic form .input-group:first-child{
+  width: 20%;
+}
+.postTopic form .input-group:nth-child(2){
+  width: 80%;
+}
+.postTopic form .input-group .radio-list .radio{
+  display: inline-block;
+}
+.postTopic form .input-group .radio-list input[type="radio"]{
+
+}
+.postTopic form .input-group-btn{
+  border: 1px solid #fff;
+  border-radius: 0px;
 }
 
 .postTopic form input#title:focus{
@@ -450,12 +486,22 @@ div.panel .post a{
 }
 
 .postTopic form textarea{
-  width: 850px;
+  width: 100%;
   resize:none;
   padding:5px 10px;
+  background: #fff;
 }
 .postTopic form textarea:focus{
   box-shadow: none;
+}
+.postTopic form .md-editor.active{
+  border: none;
+  box-shadow: none;
+}
+.postTopic form button[type="submit"]{
+  margin-top: -35px;
+  float: right;
+  margin-right: 3px;
 }
 
 /*博文页面*/
@@ -538,7 +584,7 @@ div.comment-header span{
 }
 
 div.control-group{
-  padding: 5px;
+  /*padding: 5px;*/
 }
 
 div.control-group #commentContent{
