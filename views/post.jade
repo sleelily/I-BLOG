@@ -1,7 +1,7 @@
 extends layout
 
 block content
-  div.col-xs-9.postTopic
+  div.col-xs-12.col-md-9.postTopic
     form.formhorizontal(method="post")
       fieldset
         legend
@@ -17,18 +17,29 @@ block content
               div.radio-list
                 div.radio
                   label(for="tag1") 文章
-                    input(type="radio" name="tag" id="tag1" value="article")
+                    input(type="radio" name="tag" id="tag1" value="文章" required="required")
                 div.radio
                   label(for="tag2") 问答
-                    input(type="radio" name="tag" id="tag2" value="question")
+                    input(type="radio" name="tag" id="tag2" value="问答" 
+                    required="required")
             div.input-group
               span.input-group-btn
                 button.btn.btn-default(type="button")
                   span.glyphicon.glyphicon-pencil
-              input.form-control(type="text" id="title" name="title" placeholder="输入标题")
+              input.form-control(type="text" id="title" name="title" placeholder="输入标题" required="required")
             br.clear
-          textarea(rows=28 id="content" data-provide="markdown" name="content" placeholder="支持Markdown语法...")
+          textarea(rows=28 id="content" data-provide="markdown" name="content" placeholder="支持Markdown语法..." required="required")
           button.btn.btn-large(type="submit" id="submit") SUBMIT
+  div.col-xs-3.post-bar
+    h3 Markdown 语法参考
+    hr.soften
+    p ### 单行的标题
+    p **粗体**
+    p `console.log('行内代码')`
+    p ```js\n code \n``` 标记代码块
+    p [内容](链接)
+    p ![文字说明](图片链接)
+    p #[a(href="http://markdown.tw/") 参考文档]
   footer
     div.content-nav
       ul.nav

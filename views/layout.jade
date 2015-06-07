@@ -23,43 +23,49 @@ html
                 a(href="/") 首页
                   i.fa.fa-home
               li
-                a(href="/article") 文章
+                a(href="/?tag=文章") 文章
                   i.fa.fa-save
               li
-                a(href="/about") 关于
+                a(href="/help") 关于
                   i.fa.fa-pencil
               li
                 div.input-group
-                  input.form-control(type="text"  placeholder="Search for...")
+                  input.form-control#search-bar(type="text"  placeholder="Search for...")
                   span.input-group-btn
-                    button.btn.btn-default(type="button")
+                    button.btn.btn-default(type="button")#search-btn
                       span.glyphicon.glyphicon-search
+                  script.
+                    $('#search-btn').bind('click',function(e){
+                      e.preventDefault(); 
+                      var url = "https://www.baidu.com/s?ie=UTF-8&wd="+$('#search-bar').val()+" site:sleelily.herokuapp.com"; 
+                      window.open(url, '_blank');
+                    })
       
       div#sidenav
         ul.mainnav.nav
           li
-            a(href="#")
+            a(href="/" title="首页")
               span.glyphicon.glyphicon-home
           -if(user)
-            li
-              a(href="#")
-                span.glyphicon.glyphicon-user
-              a(href="#")
+            li.user-head
+              a(href="/u/"+user title="用户")
+                img(src=head+'?s=40')
+              a(href="/out" title="登出")
                 span.glyphicon.glyphicon-log-out
           -else
             li
-              a(href="#" type="button" data-toggle="modal" data-target="#login-modal")
+              a(href="#" type="button" data-toggle="modal" data-target="#login-modal" title="登陆")
                 span.glyphicon.glyphicon-log-in
             li
-              a(href="#" type="button" data-toggle="modal" data-target="#register-modal" data-backdrop="static")
+              a(href="#" type="button" data-toggle="modal" data-target="#register-modal" data-backdrop="static" title="注册")
                 span.glyphicon.glyphicon-plus-sign
             
           li
-            a(href="#")
+            a(href="/help" title="帮助")
               span.glyphicon.glyphicon-question-sign
         ul.sibnav.nav
           li
-            a(href="#")
+            a(href="mailto:sleelily@live.com")
               span.glyphicon.glyphicon-send
 
       div.modal.fade(id="login-modal" tabindex="-1" role="dialog" aria-labelledby="#myModalLabel" aria-hidden="true")
@@ -76,13 +82,13 @@ html
                     span.glyphicon.glyphicon-user
                     span.input-label 昵称
                   div.control
-                    input.form-control(type='text' id='username' name='username')
+                    input.form-control(type='text' id='username' name='username' required="required" placeholder="请输入昵称")
                 div.input-group
                   span.input-group-addon
                     span.glyphicon.glyphicon-lock
                     span.input-label 密码
                   div.control
-                    input.form-control(type='password' id='password' name='password')
+                    input.form-control(type='password' id='password' name='password' required="required" placeholder="请输入密码")
             div.modal-footer
               button.btn.btn-default(type="button" data-dismiss="modal") 关闭
               button.btn.btn-primary#login-submit(type="button") 登陆
@@ -101,25 +107,25 @@ html
                     span.glyphicon.glyphicon-envelope
                     span.input-label 邮箱
                   div.control
-                    input.form-control(type='email' id='email' name='email')
+                    input.form-control(type='email' id='email' name='email' required="required" placeholder="example@email.com")
                 div.input-group
                   span.input-group-addon
                     span.glyphicon.glyphicon-user
                     span.input-label 昵称
                   div.control
-                    input.form-control(type='text' id='username' name='username')
+                    input.form-control(type='text' id='username' name='username' required="required" placeholder="请输入昵称")
                 div.input-group
                   span.input-group-addon
                     span.glyphicon.glyphicon-lock
                     span.input-label 密码
                   div.control
-                    input.form-control(type='password' id='password' name='password')
+                    input.form-control(type='password' id='password' name='password' required="required" placeholder="你的密码")
                 div.input-group
                   span.input-group-addon
                     span.glyphicon.glyphicon-lock
                     span.input-label 确认
                   div.control
-                    input.form-control(type='password' id='password-repeat' name='password-repeat')
+                    input.form-control(type='password' id='password-repeat' name='password-repeat' required="required" placeholder="重复一遍")
             div.modal-footer
               button.btn.btn-default(type="button" data-dismiss="modal") 关闭
               button.btn.btn-primary#register-submit(type="button") 注册

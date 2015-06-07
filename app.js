@@ -14,10 +14,10 @@ var routes = require('./routes/index');
 var users = require('./routes/users');
 
 var app = express();        //创建一个EXPRESS应用
-
+app.set('env','green');
 var mongooseStore = new MongooseStore({
   url: process.env.MONGO_URI||'mongodb://127.0.0.1:27017/blog',
-  ttl: 600
+  ttl: 3600
 });
 
 // view engine setup
@@ -26,6 +26,7 @@ app.set('view engine', 'jade');         //设定模板引擎
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
+app.use(express.static(path.join(__dirname, 'public')));        //设定静态文件夹'public
 app.use(logger('dev'));     //使用日志记录中间件logger()
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -37,7 +38,7 @@ app.use(session({
   saveUninitialized: true,
   store: mongooseStore
 }));
-app.use(express.static(path.join(__dirname, 'public')));        //设定静态文件夹'public'
+
 app.use(flash());
 
 

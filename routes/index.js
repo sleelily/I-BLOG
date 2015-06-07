@@ -10,69 +10,55 @@ var db = require('../models/db.js');
 
 router.route('/')
 .get(function(req, res, next) {
-  if (req.session.name) {
-    res.render('index',{title:"I博客",name:req.session.name});
-  } else{
-    res.render('index',{
-      title:"I博客",
-      user:req.session.user,
-      success:req.flash('success').toString(),
-      error:req.flash('error').toString()
-    });
-  };
-})
-.post(function(req, res, next) {
-  console.log("Receive POST message!");
-  var Posts = [];
-  post.find({},function(err,content){
+  var page = req.query.p?parseInt(req.query.p):0;
+  var type = req.query.tag?req.query.tag:null;
+  var user = req.session.user;
+  var query = type?{type:type}:{};
+  post.find(query,null,{skip:10*page,limit:10,sort:{'tag':-1}},function(err,posts){
     if(err){
       console.log(err);
     }
-    for (var i = content.length - 1; i >= 0; i--) {
-      var element = content[i];
-      Posts.push(element);
-    };
-    res.send(Posts);
-  });
-});
-
-
-router.route('/reg')
-.get(function(req, res, next) {
-  res.render('reg',{
-    title:"注册",
-    user:req.session.user,
-    error:req.flash('error').toString(),
-    success:req.flash('success').toString()
+    var posts = posts;
+    res.render('index',{
+      title:"I博客",
+      user:user,
+      head:req.session.head,
+      page:page,
+      posts:posts,
+      success:req.flash('success').toString(),
+      error:req.flash('error').toString()
+    });
   });
 })
+
+router.route('/reg')
 .post(function(req, res, next) {
   if (req.body['password'] != req.body['password-repeat']) {
     req.flash('error',"两次输入的密码不一致!");
-    return res.redirect('/reg');
+    return res.redirect('/');
   } else{
-    var md5 = crypto.createHash('md5')
-    ,username = req.body.username
-    ,password = md5.update(req.body.password).digest('base64')
-    ,email = req.body.email
-    ,email_MD5 = md5.update(email.toLowerCase()).digest('hex')
-    ,head = "http://www.gravatar.com/avatar/" + email_MD5 + "?s=48"
-    ,newUser = new user({
+    var password = crypto.createHash('md5').update(req.body.password).digest('hex');
+    var username = req.body.username;
+    var email = req.body.email;
+    var email_MD5 = crypto.createHash('md5').update(email.toLowerCase()).digest('hex');
+    var head = "http://gravatar.duoshuo.com/avatar/" + email_MD5;
+    var newUser = new user({
       name : username,
       password : password,
       email : email,
       head : head
     });
-    user.findOne({name:newUser.name},function(err,user){
-      if(user){
+    user.findOne({name:newUser.name},function(err,theUser){
+      if(theUser){
         req.flash('error',"该用户名已存在!");
-        res.redirect('/reg');
+        res.redirect('/');
       }else{
         newUser.save(function (err,user) {
           if (err){
             console.log (err);
           }
-          req.session.user = user.name;
+          req.session.user = newUser.name;
+          req.session.head = newUser.head;
           req.flash('success',"注册成功!");
           res.redirect('/');
         });
@@ -82,30 +68,21 @@ router.route('/reg')
 });
 
 router.route('/login')
-.get(function(req, res, next) {
-  res.render('login',{
-    title:"登陆",
-    user:req.session.user,
-    success:req.flash('success').toString(),
-    error:req.flash('error').toString()
-  });
-})
 .post(function(req, res, next) {
-  
-  var md5 = crypto.createHash('md5');
-  var password = md5.update(req.body.password).digest('base64');
+  var password = crypto.createHash('md5').update(req.body.password).digest('hex');
   var username = req.body.username;
   console.log("username:"+username+"\n"+"password:"+password);
   user.findOne({name:username},function(err,theUser){
     if(!theUser){
       req.flash('error',"该用户不存在!");
-      return res.redirect('/login');
+      return res.redirect('/');
     }else{
       if (password != theUser.password) {
         req.flash('error',"密码错误,请核对!");
-        return res.redirect('/login');
+        return res.redirect('/');
       } else{
         req.session.user = theUser.name;
+        req.session.head = theUser.head;
         req.flash('success',"登陆成功！");
         res.redirect('/');
       };  
@@ -113,37 +90,45 @@ router.route('/login')
   });
 });
 
+router.route('/out')
+.get(function(req, res, next){
+  req.session.user = null;
+  req.flash('success',"安全退出");
+  res.redirect('/');
+})
+
 router.route('/post')
 .get(function(req, res, next) {
   var name = req.session.user;
-  res.render('post',{
-    title:"发表博客",
-    user:req.session.user,
-    success:req.flash('success').toString(),
-    error:req.flash('error').toString()
-  });
+  if(name){
+    res.render('post',{
+      title:"发表博客",
+      user:req.session.user,
+      head:req.session.head,
+      success:req.flash('success').toString(),
+      error:req.flash('error').toString()
+    });
+  }else{
+    res.redirect('/');
+  }
 })
 .post(function(req, res, next){
+  console.log(req.body);
   var title = req.body.title;
-  var type = req.body.type;
+  var type = req.body.tag;
   var article = req.body.content;
-  var author = req.params.username;
-  console.log("author:"+author);
+  var author = req.session.user;
   var headLink = {};
   var time = new Date();
+      time=time.getTime();
 
   article=marked(article,function(err,content){
     return content;
-    console.log(content);
-  })
+  });
   
-  time=time.getTime();
-
-  user.findOne({name:author},function(err,content){
-    console.log("content:"+content+'\n'+"content.name:"+content.name);
-
-    headLink.name=content.name;
-    headLink.link='/'+content.name;
+  user.findOne({name:author},function(err,theUser){
+    headLink.name=theUser.name;
+    headLink.link=theUser.head;
     console.log(article);
     var newPost = new post({
       title : title,
@@ -152,94 +137,110 @@ router.route('/post')
       author: headLink,
       content : article
     });
-    console.log("newPost:"+newPost);
-    newPost.save(function (err) {if (err) console.log ('Error on save!')});
-    res.redirect('/');
+
+    newPost.save(function (err,post) {
+      if (err){
+        console.log ('Error on save!');
+      }
+      res.redirect('/'+post._id);
+    });
   });
 });
 
 router.route('/u/:username')
 .get(function(req, res, next) {
   var name = req.params.username;
-  res.render("user",{
-    username:name,
-    name:name,
-    user:req.session.user,
-    success:req.flash('success').toString(),
-    error:req.flash('error').toString()
-  });
-})
-.post(function(req, res, next) {
-    console.log("Receive POST message!");
-    var Posts = [];
-    var name = req.params.username;
-    post.find({title:name},function(err,content){
+  user.findOne({name:name},function(err,theUser){
+    if(err){
+      console.log(err);
+    }
+    post.find({'author.name':theUser.name},function(err,posts){
       if(err){
         console.log(err);
       }
-      for (var i = content.length - 1; i >= 0; i--) {
-        var element = content[i];
-        Posts.push(element);
-      };
-      console.log(Posts);
-      res.send(Posts);
-    });
-});
+      res.render("user",{
+        user:req.session.user,
+        head:req.session.head,
+        theUser:theUser,
+        posts:posts,
+        success:req.flash('success').toString(),
+        error:req.flash('error').toString()
+      });
+    })
+  })
+})
 
 router.route(/\w{24}/)
 .get(function(req, res, next){
-  res.render("article",{
-    user:req.session.user,
-    success:req.flash('success').toString(),
-    error:req.flash('error').toString()
-  });
-})
-.post(function(req, res, next){
   var id = req.path.substring(1);
+  var move = req.query.move?req.query.move:null;
+  var tag = req.query.tag?req.query.tag:null;
+  var admin = req.session.user == 'admin'?true:false;
+  if(admin){
+    if(tag == '置顶'){
+      post.findOne({_id:id},function(err,thePost){
+        if(err)
+          console.log(err);
+        thePost.tag = tag;
+        thePost.save();
+        req.flash('success',"文章已置顶")
+      })
+    }
+    if(tag == '取消'){
+      post.findOne({_id:id},function(err,thePost){
+        if(err)
+          console.log(err);
+        thePost.tag = null;
+        thePost.save();
+        req.flash('success',"取消置顶")
+      })
+    }
+    if(tag == '精华'){
+      post.findOne({_id:id},function(err,thePost){
+        if(err)
+          console.log(err);
+        thePost.type = tag;
+        thePost.save();
+        req.flash('success',"文章已加精！")
+      })
+    }
+    if(move){
+      post.remove({_id:id},function(err,thePost){
+        if(err)
+          console.log(err); 
+      })
+    }
+  }
   post.findOne({_id:id},function(err,content){
     if(err){
-        console.log(err);
+      console.log(err);
+    }else if(!content){
+      req.flash('success',"文章已删除！");
+      return res.redirect('/');
+    }{
+      res.render("article",{
+        user:req.session.user,
+        head:req.session.head,
+        admin:admin,
+        post:content,
+        md:mark,
+        success:req.flash('success').toString(),
+        error:req.flash('error').toString()
+      });
     }
-    res.send(content);
   })
 });
 
-router.route('/comment')
-// .get(function(req, res, next){
-//   var query = req.query.q;
-//   comment.find({owe:q},function(err,comments){
-//     if (err) {
-//       console.log(err);
-//     }else{
-//       res.send(comments);
-//     }
-//   });
-// })
-.post(function(req, res, next){
-  console.log("req.body:"+req.body);
-  var owe = req.body.owe;
-  var name = req.body.name;
-  var time = new Date();
-  var content = req.body.content;
-
-  var newComment = new comment({
-      owe : owe,
-      name : name,
-      time : time,
-      content : content
-  });
-
-  console.log(newComment);
-
-  newComment.save(function(err,comment){
-    if (err) {
-      console.log(err);
-      res.redirect('/');
-    } else{
-      res.send(comment);
-    };
-  });
-});
+router.route('/help')
+.get(function(req, res, next){
+  res.render('help',{
+    title:'帮助文档',
+    user:req.session.user,
+    head:req.session.head,
+    success:req.flash('success').toString(),
+    error:req.flash('error').toString()
+  })
+})
 
 module.exports = router;
 

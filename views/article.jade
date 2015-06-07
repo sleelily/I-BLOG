@@ -1,36 +1,100 @@
 extends layout
 
 block content
-  div.container
-    div.span8
-      div.article
-        h3 
-          a(href='/') 全部
-          span &nbsp;/&nbsp;     
-        div.head
-          h1.title
-        hr.soften
-        div.contents
-        div.time
+  div.col-xs-12.col-md-9.article-area
+    div.article
+      h3 
+        a(href='/') 全部
+        span &nbsp;/&nbsp;
+        a(href='/'+post.type) #{post.type}
+      div.head
+        h1.title#article
+          a(href='/'+post._id) #{post.title}
+      hr.soften
+      div.contents
+        div!=post.content
+
+      -var now = new Date();
+      -var time = (now-post.time>86400000)?parseInt((now-post.time)/86400000)+"天前":parseInt((now-post.time)/3600000)+"小时前";
+
+      div.time
+        span
+          a(href='/u/'+post.author.name)
+            img.article-head(src=post.author.link+'?s=80')
+          span 发表于#{time}
 
 
-      div.comment
-        div.commentarea
-          div.comment-header
-            span 
-              h3 评论
-          div.control-group
-            span
-              h4
-                a(id="user" href=user) #{user}
-                span 评论
-            textarea(id='commentContent' cows='4' placeholder='支持Markdown,拒绝灌水...')
-            button.btn.btn-primary(id='submitComment')  发布评论
-            br.clear
-        div.cList
+    div.bar
+      -if(admin)
+        a.btn.btn-primary(href='?tag=精华') 加为精华
+        -if(post.tag)
+          a.btn.btn-primary(href='?tag=取消') 取消置顶
+        -else
+          a.btn.btn-primary(href='?tag=置顶') 置顶文章
+        a.btn.btn-primary(href='?move=delete') 删除文章
 
-    div.span4
-      div.artList
+    div.comment-bar
+      div.ds-thread(data-thread-key=post._id data-title=post.title data-url="sleelily.herokuapp.com/"+post._id)
+      script.
+        var duoshuoQuery = {short_name:"showfun"};
+          (function() {
+            var ds = document.createElement('script');
+            ds.type = 'text/javascript';ds.async = true;
+            ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+            ds.charset = 'UTF-8';
+            (document.getElementsByTagName('head')[0] 
+             || document.getElementsByTagName('body')[0]).appendChild(ds);
+          })();
 
 
-  script(src='/javascripts/article.js')
+  div.span2.sidebar.col-xs-3.article-bar
+    div.navbar.content-nav
+      ul.nav
+        li
+          a(href="#list" aria-controls="home" role="tab" data-toggle="tab")
+            span.glyphicon.glyphicon-tasks
+        -if(user)
+          li
+            a(href="#")
+              span.glyphicon.glyphicon-th-list
+    div.side-content
+      div#list
+        ul.list-group
+          li.list-group-item
+            a(href="/") 
+              span.glyphicon.glyphicon-record
+              span 全部
+          li.list-group-item
+            a(href="?tag=精华")
+              span.glyphicon.glyphicon-record
+              span 精华
+          li.list-group-item
+            a(href="?tag=文章")
+              span.glyphicon.glyphicon-record
+              span 文章
+          li.list-group-item
+            a(href="?tag=问答")
+              span.glyphicon.glyphicon-record
+              span 问答
+          li.list-group-item
+            a(href="/help")
+              span.glyphicon.glyphicon-record
+              span 帮助
+          li.list-group-item.plathead
+            h3 平台支持
+          div.platform
+            div.icon
+              a(href="http://nodejs.org")
+                img(src='images/node-logo.svg')
+            div.icon
+              a(href="http://heroku.com")
+                img(src='images/Heroku-logo.png')
+            div.icon
+              a(href="http://getbootstrap.com")
+                img(src='images/Bootstrap-logo.jpg')
+            div.icon
+              a(href="http://mongodb.com")
+                img(src='images/mongodb-logo-web.png')
+            div.icon
+              a(href="http://github.com")
+                img(src='images/GitHub-logo.svg.png')

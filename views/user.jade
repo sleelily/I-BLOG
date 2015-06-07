@@ -1,12 +1,100 @@
 extends layout
 
 block content
-  div.container
-    div.row
-    div.span12
-      p.text-right
-        a.btn.btn-primary(href='/u/'+username+'/post') 发布博客
-    div.span8
-      div#post-content
+    div.col-xs-12.col-md-9.user-page
+      div.bar
+        a.btn.btn-primary(href='/post') 发布博客
+      div.row.detail
+        div.col-xs-3
+          a(href=theUser.name)
+            img(src=theUser.head)
+        div.col-xs-6
+          div.input-group
+            span.input-group-btn
+              button.btn.btn-default(type="button" disabled)
+                span.glyphicon.glyphicon-user
+            input.form-control(type="text" value=theUser.name disabled)
+          div.input-group
+            span.input-group-btn
+              button.btn.btn-default(type="button" disabled)
+                span.glyphicon.glyphicon-envelope
+            input.form-control(type="text" value=theUser.email disabled)
+      div.bar
+        p 已发布:
+      -each item in posts
+        -var now = new Date();
+        -var time = (now-item.time>86400000)?parseInt((now-item.time)/86400000)+"天前":parseInt((now-item.time)/3600000)+"小时前";
+        -if(item.tag)
+          div.item.white
+            span.tag.blue #{item.tag}
+            div.topic
+              a(href=item._id) #{item.title}
+            span.time #{time}
+        -else
+          div.item
+            -if(item.type == "精华")
+              span.tag.yel #{item.type}
+            -if(item.type == "文章")
+              span.tag.red #{item.type}
+            -if(item.type == "问答")
+              span.tag.green #{item.type}
+            div.topic
+              a(href=item._id) #{item.title}
+            span.time #{time}
+    div.span2.sidebar.col-xs-3
+      div.navbar.content-nav
+        ul.nav
+          li
+            a(href="#list" aria-controls="home" role="tab" data-toggle="tab")
+              span.glyphicon.glyphicon-tasks
+          -if(user)
+            li
+              a(href="#")
+                span.glyphicon.glyphicon-th-list
+      div.side-content
+        div#list
+          ul.list-group
+            li.list-group-item
+              a(href="/") 
+                span.glyphicon.glyphicon-record
+                span 全部
+            li.list-group-item
+              a(href="/jing")
+                span.glyphicon.glyphicon-record
+                span 精华
+            li.list-group-item
+              a(href="?tag=文章")
+                span.glyphicon.glyphicon-record
+                span 文章
+            li.list-group-item
+              a(href="?tag=问答")
+                span.glyphicon.glyphicon-record
+                span 问答
+            li.list-group-item
+              a(href="/help")
+                span.glyphicon.glyphicon-record
+                span 帮助
+            li.list-group-item.plathead
+              h3 平台支持
+            div.platform
+              div.icon
+                a(href="http://nodejs.org")
+                  img(src='../../images/node-logo.svg')
+              div.icon
+                a(href="http://heroku.com")
+                  img(src='../../images/Heroku-logo.png')
+              div.icon
+                a(href="http://getbootstrap.com")
+                  img(src='../../images/Bootstrap-logo.jpg')
+              div.icon
+                a(href="http://mongodb.com")
+                  img(src='../../images/mongodb-logo-web.png')
+              div.icon
+                a(href="http://github.com")
+                  img(src='../../images/GitHub-logo.svg.png')
 
-  script(src='/javascripts/ajaxArticle.js')
+    footer
+      div.content-nav
+        ul.nav
+          li
+            p sleelily&nbsp;&copy;&nbsp;2015&nbsp;Copyright

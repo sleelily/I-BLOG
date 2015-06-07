@@ -1,13 +1,18 @@
+html{
+  height: 100%;
+}
 body {
   padding:36px 0 0 55px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
   background-color: rgb(230,230,230) !important;
+  height: inherit;
 }
 
 body>.container{
   padding: 0;
   margin: 0;
   width: 100%;
+  height: inherit;
 }
 
 div.navbar.navbar-fixed-top{
@@ -58,7 +63,7 @@ span.icon-bar{
   width: 400px;
   height: 36px;
   position: absolute;
-  margin-left: 320px;
+  margin-left: 126px;
 }
 
 #topNav li:nth-child(4) *{
@@ -88,6 +93,7 @@ span.icon-bar{
 }
 .navbar-fixed-top a.brand{
   float: right;
+  margin-right: 50px;
   font-weight: bold;
   line-height: 36px;
   font-size: 30px;
@@ -105,10 +111,13 @@ header>.container{
 }
 
 div.alert{
-  width: 50%;
+  width: 40%;
   position: absolute;
   left: 50%;
+  -webkit-transform: translate(-50%,0);
+  -moz-transform: translate(-50%,0);
   transform: translate(-50%,0);
+  z-index: 10000000;
 }
 
 div.alert span{
@@ -150,6 +159,15 @@ div.alert span{
     float: left;
     font-size: 18px;
   }
+  /*侧边栏隐藏*/
+  div.span2.sidebar.col-xs-3{
+    display: none;
+  }
+  /*元素时间隐藏*/
+  div.item span.time{
+    display: none;
+  }
+
 }
 
 /*sidenav*/
@@ -176,6 +194,17 @@ div.alert span{
   margin-bottom: 5px;
 }
 
+#sidenav ul li.user-head{
+  width: 76px;
+  position: relative;
+  right: 10px;
+}
+
+#sidenav ul li.user-head img{
+  border: 3px solid #fff;
+  border-radius: 50%;
+}
+
 #sidenav ul li a{
   color: #cecece;
 }
@@ -192,6 +221,7 @@ div.alert span{
 
 #sidenav ul.mainnav{
   margin-top: 36px;
+  overflow: hidden;
 }
 
 #sidenav ul.sibnav{
@@ -246,10 +276,13 @@ div.alert span{
 div.warper{
   padding:0;
   width: 100%;
+  height: inherit;
 }
 div.content{
   box-shadow: 1px 1px 2px rgba(0,0,0,0.1);
   padding: 0;
+  height: inherit;
+  min-width: 480px;
 }
 
 div.content-nav{
@@ -308,6 +341,10 @@ div.content-nav .nav li a{
   border: 1px solid rgb(221,221,221);
 }
 
+div.white{
+  background: #fff !important;
+}
+
 div.item{
   background: rgb(250,250,250);
   margin: 1px;
@@ -318,6 +355,12 @@ div.item{
   box-shadow: 0 -1px 1px rgba(0,0,0,0.1);
 }
 
+div.item:hover{
+  background: #fff !important;
+}
+div.item:nth-child(even){
+  background: rgb(230,230,230);
+}
 div.item *{
   height: 30px;
   float: left;
@@ -334,24 +377,46 @@ div.item span{
 div.item>a{
   width: 60px;
   height: 30px;
-  margin-right: 20px;
   line-height: 30px;
   text-align: center;
+  margin-right: 0;
+  margin-left: 30px;
 }
 
 div.item a:hover{
-  width: 60px;
-  height: 30px;
-  margin-right: 20px;
-  line-height: 30px;
-  text-align: center;
   text-decoration: none;
 }
 
-div.item .tag{
-  background-color: #80bd01;
+.green{
+  background-color: #64EA7A !important;
 }
-
+.green-text{
+  color: #64EA7A !important;
+}
+.blue{
+  background-color: #0ff !important; 
+}
+.blue-text{
+  color: #0ff !important;
+}
+.yel{
+  background-color: #fd4 !important; 
+}
+.yel-text{
+  color: #fd4 !important;
+}
+.red{
+  background-color: #F8B !important;
+}
+.red-text{
+  color: #F8B !important;
+}
+.grey{
+  background-color: #353 !important;
+}
+.grey-text{
+  color: #BFE0BF !important;
+}
 div.item .topic a{
   line-height: 2em;
   width: auto;
@@ -369,24 +434,27 @@ div.item span.time{
 /*侧边栏*/
 div.sidebar{
   overflow: hidden;
-  padding: 0 0 0 2px
+  padding: 0 0 0 19px;
+  position: fixed;
+  right: 0;
+  height: inherit;
 }
 
 div.sidebar .side-content{
-  /*height: 600px;*/
+  height: inherit;
 }
 
 div.sidebar .list-group,
 div.sidebar #list{
   height: 100%;
-  background: #e4eaec;
+  background: #fff;
 }
 div.sidebar .list-group{
   padding: 15px;
 }
 div#list .list-group li{
   padding: 0;
-  background: #e4eaec;
+  background: #fff;
   border: none;
   border-radius: none; 
 }
@@ -427,17 +495,29 @@ div.platform .icon a{
 div.platform .icon a img{
   width: 144px;
 }
+
 /*发布话题页*/
 
 .postTopic{
   padding: 0;
+  height: inherit;
 }
-
+.postTopic form fieldset{
+  height: inherit;
+} 
+.postTopic form{
+  height: inherit;
+}
 .postTopic form legend{
   width: 100%;
+  height: inherit;
   padding: 0;
   margin-bottom: 10px;
   background-color:#f6f6f6;
+}
+
+.postTopic form legend .md-editor{
+  height: inherit;
 }
 
 .postTopic *{
@@ -474,7 +554,8 @@ div.platform .icon a img{
   display: inline-block;
 }
 .postTopic form .input-group .radio-list input[type="radio"]{
-
+  position: relative;
+  right: 38px;
 }
 .postTopic form .input-group-btn{
   border: 1px solid #fff;
@@ -487,6 +568,7 @@ div.platform .icon a img{
 
 .postTopic form textarea{
   width: 100%;
+  height: inherit;
   resize:none;
   padding:5px 10px;
   background: #fff;
@@ -499,12 +581,29 @@ div.platform .icon a img{
   box-shadow: none;
 }
 .postTopic form button[type="submit"]{
-  margin-top: -35px;
+  margin-top: -41px;
   float: right;
-  margin-right: 3px;
+  margin-right: 10px;
+}
+
+.post-bar{
+  background: #fff;
+  overflow: hidden;
+  padding: 0 0 0 19px;
+  position: fixed;
+  right: 0;
+  height: inherit;
+  box-sizing: border-box;
+  width: 23.7%;
+  line-height: 1.5em;
+  text-indent: 1.5em;
 }
 
 /*博文页面*/
+div.article-area{
+  background: #fff;
+  padding: 15px 30px;
+}
 div.container>div.head{
   text-align: center;
 }
@@ -522,6 +621,7 @@ div.contents p{
 
 div.article{
   margin-bottom: 30px;
+  overflow: hidden;
 }
 
 div pre{
@@ -562,8 +662,13 @@ div.contents h5{
 
 div.time{
   text-align: right;
-  margin-right: 40px;
-  margin-top: -2em;
+  margin-right: 50px;
+  margin-top: 50px;
+}
+
+img.article-head{
+  border-radius: 50%;
+  margin-right: 10px;
 }
 
 div.commentarea{
@@ -601,6 +706,66 @@ br.clear{
   clear: both;
 }
 
+/*用户界面*/
+div.bar{
+  height: 50px;
+  background: #fff;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+  border-top: 1px solid rgba(0,0,0,0.1);
+}
+div.bar a{
+  margin: 8px;
+  float: right;
+}
+div.bar p{
+  line-height: 45px;
+  margin-left: 20px;
+  font-weight: bold;
+}
+div.bar h3{
+  margin: 10px 20px;
+}
+div.detail div.col-xs-3 a img{
+  width: 120px;
+  border-radius: 50%;
+  box-shadow: inset 0 0 5px rgba(0,0,0,0.3);
+}
+div.detail div.col-xs-6{
+  padding: 15px;
+}
+div.col-xs-6 .input-group input{
+  cursor: auto;
+}
+div.detail{
+  margin-left: 0;
+  margin-right: 0;
+  padding: 15px 0;
+  background: #fff;
+}
+div.user-page{
+  padding: 0;
+}
+div.user-page div.item{
+  background: #fff;
+  border-color:#fff;
+  margin: 0; 
+}
+
+/*帮助文档*/
+div.help-detail{
+  height: inherit;
+  padding: 0;
+  margin: 0;
+}
+div.help{
+  background: #fff;
+  padding: 30px 80px 50px;
+}
+div.help p{
+  font-size: 20px;
+  text-indent: 1.5em;
+  line-height: 2em;
+}
 
 /*页脚*/
 footer{
@@ -614,7 +779,7 @@ footer .content-nav{
 }
 footer ul{
   float: none!important;
-  height: 100%
+  height: 100%；
 }
 footer ul li{
   width: auto;

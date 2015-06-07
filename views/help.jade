@@ -1,0 +1,73 @@
+extends layout
+
+block content
+  div.col-xs-12.col-md-9.help-detail
+    div.bar
+      h3 帮助文档
+    div.help
+      p
+        b 1、如何加入I-BLOG
+      p I-BLOG是一个简单的博客社区，在这里你可以使用简洁的博客功能与其他人交流，要加入请点击左边加号图标进行注册，请牢记你的账号密码。已有账号，请点击登陆图标登陆。登陆之后可以进行话题发布，请注意，本社区不允许灌水，请发有含量的话题。
+      p
+        b 2、怎样发布话题
+      p 话题发布支持使用Markdown语法，Markdown是一种轻量级标记语言，创始人为约翰·格鲁伯（JohnGruber）。它允许人们“使用易读易写的纯文本格式编写文档，然后转换成有效的XHTML(或者HTML)文档”。这种语言吸收了很多在电子邮件中已有的纯文本标记的特性，可以帮助你迅速排版出图文并茂、格式优美的文章。还不了解？请点击#[a(href="http://markdown.tw/") Markdown语法说明]进行学习，或者参照#[a(href="zybuluo.com") 作业部落]进行了解(发布话题页右侧也有简明语法提示)。编辑器出了常用格式快捷键外还支持实时预览和全屏编辑功 能，你可以随时预览正在编写的文章或是切换至全屏进行编写（感谢#[a(href="https://github.com/toopay") toopay]提供的优秀插件）。
+      p 发布话题时，除了标题和正文之外，标签也是必填项，发布合乎规范的话题有利于迅速获得帮助或者响应。再一次提醒，请发布健康有含量的话题，否则管理员有权对你的话题进行删帖操作。
+      p
+        b 3、关于I-BLOG
+      p I-BLOG基于Node.js建立，使用了Express、Bootstrap等主流框架及MongoDB数据库，访问#[a(href='https://github.com/sleelily/I-BLOG') I-BLOG]查看源代码，或者在git中输入https://github.com/sleelily/I-BLOG.git部署你自己的I-BLOG。
+  div.span2.sidebar.col-xs-3
+    div.navbar.content-nav
+      ul.nav
+        li
+          a(href="#list" aria-controls="home" role="tab" data-toggle="tab")
+            span.glyphicon.glyphicon-tasks
+        -if(user)
+          li
+            a(href="#")
+              span.glyphicon.glyphicon-th-list
+    div.side-content
+      div#list
+        ul.list-group
+          li.list-group-item
+            a(href="/") 
+              span.glyphicon.glyphicon-record
+              span 全部
+          li.list-group-item
+            a(href="/jing")
+              span.glyphicon.glyphicon-record
+              span 精华
+          li.list-group-item
+            a(href="?tag=文章")
+              span.glyphicon.glyphicon-record
+              span 文章
+          li.list-group-item
+            a(href="?tag=问答")
+              span.glyphicon.glyphicon-record
+              span 问答
+          li.list-group-item
+            a(href="/help")
+              span.glyphicon.glyphicon-record
+              span 帮助
+          li.list-group-item.plathead
+            h3 平台支持
+          div.platform
+            div.icon
+              a(href="http://nodejs.org")
+                img(src='../images/node-logo.svg')
+            div.icon
+              a(href="http://heroku.com")
+                img(src='../images/Heroku-logo.png')
+            div.icon
+              a(href="http://getbootstrap.com")
+                img(src='../images/Bootstrap-logo.jpg')
+            div.icon
+              a(href="http://mongodb.com")
+                img(src='../images/mongodb-logo-web.png')
+            div.icon
+              a(href="http://github.com")
+                img(src='../images/GitHub-logo.svg.png')
+  footer
+      div.content-nav
+        ul.nav
+          li
+            p sleelily&nbsp;&copy;&nbsp;2015&nbsp;Copyright
